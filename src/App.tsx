@@ -41,6 +41,8 @@ import { GoogleSheetsPanel } from './components/GoogleSheetsPanel';
 import { AdbConsolePanel } from './components/AdbConsolePanel';
 import { WorkflowRunnerModal } from './components/WorkflowRunnerModal';
 import { LocalBridgePanel } from './components/LocalBridgePanel';
+import { MobileBottomNav } from './components/MobileBottomNav';
+import { MobileMoreDrawer } from './components/MobileMoreDrawer';
 
 export default function App() {
   // Global App States
@@ -48,6 +50,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [broadcastActive, setBroadcastActive] = useState<boolean>(false);
   const [isEmergencyStopped, setIsEmergencyStopped] = useState<boolean>(false);
+  const [isMobileMoreOpen, setIsMobileMoreOpen] = useState<boolean>(false);
 
   // Local PC Hardware ADB WebSocket Bridge State
   const [bridgeConnected, setBridgeConnected] = useState<boolean>(false);
@@ -740,7 +743,7 @@ export default function App() {
       />
 
       {/* Main Container Viewport */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-6">
+      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-4 sm:py-6 pb-24 md:pb-6">
         {activeTab === 'dashboard' && (
           <DashboardOverview
             emulators={emulators}
@@ -906,6 +909,25 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Mobile-First Thumb Bottom Navigation Bar */}
+      <MobileBottomNav
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        lang={lang}
+        onOpenMoreMenu={() => setIsMobileMoreOpen(true)}
+        activeEmulatorsCount={emulators.filter((e) => e.status === 'connected').length}
+      />
+
+      {/* Mobile More Tools Drawer */}
+      <MobileMoreDrawer
+        isOpen={isMobileMoreOpen}
+        onClose={() => setIsMobileMoreOpen(false)}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        lang={lang}
+        onEmergencyStop={handleEmergencyStop}
+      />
 
       {/* Real-time Workflow Runner Modal */}
       <WorkflowRunnerModal

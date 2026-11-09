@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../utils/translations';
+import { PWAInstallButton } from './PWAInstallButton';
 
 interface TopBarProps {
   activeTab: string;
@@ -121,6 +122,9 @@ export const TopBar: React.FC<TopBarProps> = ({
 
         {/* Zone 3: Actions & Controls */}
         <div className="flex items-center gap-2 shrink-0">
+          {/* PWA Install on Android Button */}
+          <PWAInstallButton lang={lang} />
+
           {/* Master Broadcast Toggle */}
           <button
             onClick={() => setBroadcastActive(!broadcastActive)}

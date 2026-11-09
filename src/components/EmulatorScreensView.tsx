@@ -62,6 +62,43 @@ export const EmulatorScreensView: React.FC<EmulatorScreensViewProps> = ({
 
   return (
     <div className="space-y-4">
+      {/* Mobile Horizontal Device Switcher Strip for Android Phones */}
+      <div className="flex md:hidden items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none select-none">
+        <button
+          onClick={() => setSelectedDeviceFilter('all')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap shrink-0 border ${
+            selectedDeviceFilter === 'all'
+              ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400 shadow'
+              : 'bg-slate-900 border-slate-800 text-slate-300'
+          }`}
+        >
+          {lang === 'bn' ? 'সব এমুলেটর' : 'All Devices'} ({emulators.length})
+        </button>
+        {emulators.map((e) => (
+          <button
+            key={e.id}
+            onClick={() => setSelectedDeviceFilter(e.id)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap shrink-0 border flex items-center gap-1.5 ${
+              selectedDeviceFilter === e.id
+                ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400 shadow'
+                : 'bg-slate-900 border-slate-800 text-slate-300'
+            }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                e.status === 'connected' ? 'bg-emerald-400' : 'bg-slate-600'
+              }`}
+            />
+            <span>{e.name.split(' ')[0]}</span>
+            {e.isMaster && (
+              <span className="text-[9px] bg-slate-950/60 text-slate-200 px-1 rounded font-mono">
+                M
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
       {/* Control Header & Grid Layout Controls */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 p-3 bg-slate-900 border border-slate-800 rounded-xl">
         <div className="flex flex-wrap items-center gap-2">
